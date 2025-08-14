@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Automated Light Control</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f0f0f0;
+    }
+
+    #light {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      background-color: #333;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #000;
+      transition: background-color 0.5s, box-shadow 0.5s;
+    }
+
+    .on {
+      background-color: yellow;
+      box-shadow: 0 0 40px yellow;
+    }
+
+    .off {
+      background-color: #333;
+      box-shadow: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    #status {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Automated Light On/Off</h1>
+  <div id="light" class="off"></div>
+  <div id="status">Light is OFF</div>
+  <button onclick="toggleLight()">Toggle Light</button>
+
+  <script>
+    const light = document.getElementById('light');
+    const status = document.getElementById('status');
+
+    function setLight(state) {
+      if (state === 'on') {
+        light.classList.remove('off');
+        light.classList.add('on');
+        status.textContent = 'Light is ON';
+      } else {
+        light.classList.remove('on');
+        light.classList.add('off');
+        status.textContent = 'Light is OFF';
+      }
+    }
+
+    function autoControl() {
+      const hour = new Date().getHours();
+      if (hour >= 6 && hour < 18) {
+        // Day time
+        setLight('off');
+      } else {
+        // Night time
+        setLight('on');
+      }
+    }
+
+    function toggleLight() {
+      if (light.classList.contains('on')) {
+        setLight('off');
+      } else {
+        setLight('on');
+      }
+    }
+
+    // Run automatic control on load
+    window.onload = autoControl;
+  </script>
+</body>
+</html>
